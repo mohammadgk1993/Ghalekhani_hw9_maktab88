@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        div {
+            width:300px;
+            height:80px;
+            background-color:gray;
+            margin-top: 1%;
+        }
+        p {
+            display: none;
+        }
+    </style>
+</head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+            $('body').append('<button class="fadein">Fade In</button>')
+            $('body').append('<button class="fadeout">Fade Out</button>')
+            $('body').append('<div>hello</div>')
+            $('body').append('<p>hello</p>')
+
+            $(".fadein").click(function(){
+                $("div").fadeIn('slow');
+                $('p').fadeOut('slow')
+            });
+                $(".fadeout").click(function(){
+                    $("div").fadeOut('slow');
+                    $('p').fadeIn('slow')
+                });
+            });
+        </script>
+    </body>
+</html>

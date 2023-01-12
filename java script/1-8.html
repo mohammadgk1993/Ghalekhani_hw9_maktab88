@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .slider1,.slider2,.slider3 {
+                border: 1px solid rgb(204, 204, 204);
+                border-bottom: 2px solid green;
+                color: green;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                font-size: 20px;
+                padding: 1%;
+                margin: 0;
+            }
+            .text1,.text2,.text3 {
+                padding: 2%;
+                font-size: 20px;
+                border: 1px solid rgb(184, 184, 184);
+                margin: 0;
+                background-color: rgb(245, 245, 245);
+            }
+            .text1,.text2 {
+                display: none;
+            }
+            i {
+                color: orange !important;
+                font-size: 12px !important;
+            }
+            .down1,.down2,.down3 {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.slider1').click(function() {
+                    $('.slider1 .right1').css('display','none')
+                    $('.slider1 .down1').css('display','inline')
+                    $('.slider2 .right2').css('display','inline')
+                    $('.slider2 .down2').css('display','none')
+                    $('.slider3 .right3').css('display','inline')
+                    $('.slider3 .down3').css('display','none')
+                    $('.text1').slideDown(200)
+                    $('.text2').slideUp(200)
+                    $('.text3').slideUp(200)
+                })
+                $('.slider2').click(function() {
+                    $('.slider2 .right2').css('display','none')
+                    $('.slider2 .down2').css('display','inline')
+                    $('.slider1 .right1').css('display','inline')
+                    $('.slider1 .down1').css('display','none')
+                    $('.slider3 .right3').css('display','inline')
+                    $('.slider3 .down3').css('display','none')
+                    $('.text2').slideDown(200)
+                    $('.text1').slideUp(200)
+                    $('.text3').slideUp(200)
+                })
+                $('.slider3').click(function() {
+                    $('.slider3 .right3').css('display','none')
+                    $('.slider3 .down3').css('display','inline')
+                    $('.slider2 .right2').css('display','inline')
+                    $('.slider2 .down2').css('display','none')
+                    $('.slider1 .right1').css('display','inline')
+                    $('.slider1 .down1').css('display','none')
+                    $('.text3').slideDown(200)
+                    $('.text1').slideUp(200)
+                    $('.text2').slideUp(200)
+                })
+            })
+        </script>
+        <p class="slider1"><i class="fa fa-caret-right right1"></i><i class="fa fa-caret-down down1"></i> Step One</p>
+        <p class="text1">Learn jQuery!</p>
+        <p class="slider2"><i class="fa fa-caret-right right2"></i><i class="fa fa-caret-down down2"></i> Step One</p>
+        <p class="text2">Learn jQuery UI!</p>
+        <p class="slider3"><i class="fa fa-caret-right right3"></i><i class="fa fa-caret-down down3"></i> Step One</p>
+        <p class="text3">WRITE EPIC CODE!!!</p>
+    </body>
+</html>

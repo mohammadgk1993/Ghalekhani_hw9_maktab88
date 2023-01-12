@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+            }
+
+            table {
+                border-collapse: collapse;
+                font-family: arial, sans-serif;
+                margin-bottom: 2%;
+                margin: 0.5%;
+            }
+
+            th {
+                background-color: rgb(37, 37, 37) !important;
+                color: white;
+            }
+
+            td, th {
+                border: 1px solid black;
+                text-align: center;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: rgb(182, 182, 182);
+            }
+
+            tr:hover {
+                background-color: rgb(94, 93, 93);
+                color: white;
+            }
+
+            button {
+                padding: 2%;
+                background-color: black;
+                color: white;
+            }
+
+            div {
+                width: 20%;
+                margin-bottom: 2%;
+                margin: 0.5%;
+                background-color: gray;
+                padding: 2%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border-radius: 1rem;
+            }
+            
+            div * {
+                margin: 1%;
+                font-size: 1.5rem;
+                border-radius: 1rem;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>    
+        <script src="user-data.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+        <script class="table-maker">
+            $('body').append('<table></table>')
+            $('table').append($('<tr></tr>'))
+            
+            let counter = 0
+            for (let i of Object.keys(userData[0])) {
+                $('tr').append($('<th></th>').text(i).attr('onclick',`sortTable(${counter})`))
+                counter += 1
+            }
+
+            for (let i = 0 ; i < userData.length ; i++) {
+                $('table').append($('<tr></tr>'))
+
+                let cols = Object.values(userData[i])
+
+                for (let j of cols) {
+                    $('tr').eq(i+1).append($('<td></td>').text(j))
+                }
+                $('tr:last').append('<td><input type="checkbox"></td>')
+            }
+
+            $('table').after('<div></div>')
+            $('div').css('display','none')
+            for (let i = 0 ; i < Object.keys(userData[0]).length ; i++) {
+                $('div').append($("<input>").attr('placeholder',`${$('th').eq(i).text()}`))
+            }
+            $('div').append($("<button></button>").text("delete").addClass('table-delete'))
+            $('div').append($("<button></button>").text("add").addClass('table-add'))
+        </script>
+
+        <script class="functions">
+            let selfIndex = 0
+            let newVal = ''
+            let inputIndex = 0
+            let origVal = ''
+
+            $(document).ready(function() {
+                $('tr').click(function() {
+
+                    selfIndex = $(this).index()
+
+                    if (selfIndex == 0) {
+                        return
+                    }
+
+                    let trUid = Number($('tr').eq(selfIndex).children().eq(0).text())
+
+                    $('div').css('display','flex')
+
+                    for (let i = 0 ; i < Object.keys(userData[0]).length ; i++) {
+                        $('div input').eq(i).val($('tr').eq(selfIndex).children().eq(i).text())
+                    }
+
+                    $('.table-delete').click(function() {
+                        let selected = []
+                        let uidSelect = []
+                        $('input[type="checkbox"]').each(function() {
+                            if ($(this).is(":checked")) {
+                                selected.push($(this).parent().parent().index());
+                                uidSelect.push(Number($(this).parent().parent().children().eq(0).text()))
+                                $(this).parent().parent().remove()
+                            }
+                        })
+                        for (let i of uidSelect) {
+                            for (let j of userData) {
+                                if (j.uid == i) {
+                                    userData.splice(userData.indexOf(j),1)
+                                }
+                            }
+                        }
+                    })
+
+                    $('input').focus(function() {
+                        inputIndex = $(this).index()
+                        origVal = $(this).val()
+                        newVal = origVal
+                        $(this).change(function() {
+                            newVal = $(this).val()
+                            if (newVal == '') {
+                                newVal = origVal
+                            }
+                        })
+                    })
+
+                    $('input').blur(function() {
+                        if (inputIndex == 0) {
+                            if (isNaN(newVal) || parseInt(newVal) != newVal) {
+                                return
+                            }
+                        }
+
+                        if (inputIndex == 0) {
+                            let existUserWithThisUid = userData.find((user,index) => user.uid == newVal && selfIndex !== index +1)
+                            if (existUserWithThisUid != null) {
+                                userData[selfIndex-1][`${$(this).prop('placeholder')}`] = Number(origVal)
+                                $('tr').eq(selfIndex).children().eq(inputIndex).text(origVal)
+                            } else {
+                                userData[selfIndex-1][`${$(this).prop('placeholder')}`] = Number(newVal)
+                                $('tr').eq(selfIndex).children().eq(inputIndex).text(newVal)
+                            }
+                        } else {
+                            userData[selfIndex-1][`${$(this).prop('placeholder')}`] = newVal
+                            $('tr').eq(selfIndex).children().eq(inputIndex).text(newVal)
+                        }
+                    })
+                })
+            })
+
+            $(document).ready(function() {
+                $('.table-add').click(function() {
+                    $('table tr:last').after('<tr></tr>');
+                        for (let i = 0 ; i < Object.keys(userData[0]).length ; i++) {
+                            $('table tr:last').append($('<td></td>').text(''))
+                        }
+                    $('table tr:last').append('<td><input type = "checkbox"></td>')
+                    userData.push({})
+                    
+                    $('tr').click(function() {
+
+                        selfIndex = $(this).index()
+
+                        if (selfIndex == 0) {
+                            return
+                        }
+
+                        let trUid = Number($('tr').eq(selfIndex).children().eq(0).text())
+
+                        $('div').css('display','flex')
+
+                        for (let i = 0 ; i < Object.keys(userData[0]).length ; i++) {
+                            $('div input').eq(i).val($('tr').eq(selfIndex).children().eq(i).text())
+                        }
+
+                        $('input').focus(function() {
+                            inputIndex = $(this).index()
+                            origVal = $(this).val()
+                            newVal = origVal
+                            $(this).change(function() {
+                                newVal = $(this).val()
+                                if (newVal == '') {
+                                    newVal = origVal
+                                }
+                            })
+                        })
+
+                        $('input').blur(function() {
+                            if (inputIndex == 0) {
+                                if (isNaN(newVal) || parseInt(newVal) != newVal) {
+                                    return
+                                }
+                            }
+
+                            if (inputIndex == 0) {
+                                let existUserWithThisUid = userData.find((user,index) => user.uid == newVal && selfIndex !== index +1)
+                                if (existUserWithThisUid != null) {
+                                    userData[selfIndex-1][`${$(this).prop('placeholder')}`] = Number(origVal)
+                                    $('tr').eq(selfIndex).children().eq(inputIndex).text(origVal)
+                                } else {
+                                    userData[selfIndex-1][`${$(this).prop('placeholder')}`] = Number(newVal)
+                                    $('tr').eq(selfIndex).children().eq(inputIndex).text(newVal)
+                                }
+                            } else {
+                                userData[selfIndex-1][`${$(this).prop('placeholder')}`] = newVal
+                                $('tr').eq(selfIndex).children().eq(inputIndex).text(newVal)
+                            }
+                        })
+                    })
+                })
+            })
+        </script>
+
+        <script class="table-sort">
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementsByTagName('table')[0];
+                switching = true;
+                //Set the sorting direction to ascending:
+                dir = "asc"; 
+                /*Make a loop that will continue until
+                no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                    first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                        one from current row and one from the next:*/
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        /*check if the two rows should switch place,
+                        based on the direction, asc or desc:*/
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            //if so, mark as a switch and break the loop:
+                            shouldSwitch= true;
+                            break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            //if so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                        and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        //Each time a switch is done, increase this count by 1:
+                        switchcount ++;      
+                    } else {
+                        /*If no switching has been done AND the direction is "asc",
+                        set the direction to "desc" and run the while loop again.*/
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

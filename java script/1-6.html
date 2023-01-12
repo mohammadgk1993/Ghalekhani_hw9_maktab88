@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+box-sizing:border-box;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20px;
+}
+
+#navbar {
+    height: 32px;
+    margin: auto;
+    display:flex;
+    justify-content:space-between;
+    background-color:orange;
+    align-items:center;
+}
+
+ul, li {
+    margin:0; 
+    padding:0; 
+    list-style:none;
+    background-color:orange;
+}
+
+.file_menu {
+    display:none;
+    width:300px;
+    position: relative;
+}
+.file_menu2 {
+    display:none;
+    width:300px;
+    position: relative;
+}
+
+
+.file_menu li {
+    position: relative;
+}
+.file_menu2 li {
+    position: relative;
+}
+
+.file_menu li a {
+    color:#FFFFFF; 
+    text-decoration:none; 
+    padding:10px; 
+    display:block;
+}
+.file_menu2 li a {
+    color:#FFFFFF; 
+    text-decoration:none; 
+    padding:10px; 
+    display:block;
+}
+
+.file_menu li a:hover {
+    padding:10px;
+    font-weight:bold;
+    color: #F00880;
+}
+.file_menu2 li a:hover {
+    padding:10px;
+    font-weight:bold;
+    color: #F00880;
+}
+</style>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $(".hoverli").hover(function () {
+        $('ul.file_menu').slideDown('medium');
+    }, 
+    function () {
+        $('ul.file_menu').slideUp('medium');
+    }
+    );
+
+    $(".file_menu li").hover(
+        function () {
+            $(this).children("ul").slideDown('medium');
+        },
+        function () {
+            $(this).children("ul").slideUp('medium');
+        }
+    );
+
+$(".hoverli2").hover(
+  function () {
+     $('ul.file_menu2').slideDown('medium');
+  }, 
+  function () {
+     $('ul.file_menu2').slideUp('medium');
+  }
+);
+
+     $(".file_menu2 li").hover(
+  function () {
+     $(this).children("ul").slideDown('medium');
+  },
+  function () {
+    $(this).children("ul").slideUp('medium');
+  }
+);
+});
+</script>
+<div id="navbar">
+	<a>Home</a>
+	<ul class="hover">
+       <li class="hoverli">
+			<a class="menu_class">Pages</a>
+        	<ul class="file_menu">
+        		<li>Pages Number One</li>
+                <li>Pages Number Two</li>
+                <li>Pages Number Three</li>
+        	</ul>
+     	<li>
+	</ul>
+    <ul class="hover2">
+       <li class="hoverli2">
+			<a class="menu_class2">Links</a>
+        	<ul class="file_menu2">
+        		<li></li>
+                <li>Link Number 1</li>
+                <li>Link Number 2</li>
+                <li>Link Number 2</li>
+        	</ul>
+     	<li>
+	</ul>
+</div>
+</body>
+  
+</html>

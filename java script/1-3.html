@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            div {
+                background-color: #00ff00;
+                margin: 5%;
+                border: 1px black solid;
+            }
+            #first {
+                width: 300px;
+                margin: 0;
+            }
+            button {
+                margin: 1%;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('body').append('<div id = "first"><span>Parent nodes text</span><div><span>The target node</span><div><span>The main nodes child node</span></div></div></div>')
+                $('body').append('<button class="child">child</button>')
+                $('body').append('<button class="parent">parent</button>')
+
+                let parent = $('span').eq(0).text() + ' ' + $('span').eq(1).text() + ' ' + $('span').eq(2).text() + ' ' + $('span').eq(1).text()
+                let child = $('span').eq(2).text() + ' ' + $('span').eq(1).text()
+
+                $('.parent').click(function(){
+                    $('span').eq(1).text(parent)
+                })
+                $('.child').click(function(){
+                    $('span').eq(1).text(child)
+                })
+            })
+        </script>      
+    </body>
+</html>

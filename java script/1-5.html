@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+#panel, #down #up #toggle {
+  padding: 5px;
+  text-align: center;
+  background-color: #e5eecc;
+  border: solid 1px #c3c3c3;
+}
+#panel {
+	text-align:left;
+    padding-bottom:6%;
+    }
+</style>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script> 
+$(document).ready(function(){
+	$('body').append('<button id="up">slide up</button>')
+    $('body').append('<button id="down">slide down</button>')
+    $('body').append('<button id="toggle">slide toggle</button>')
+    $('body').append('<div id="panel">This content will appear and disappear when the div is slide in and out</div>')
+    $('body').append('<p>With our online editor, you can edit the code, and click on a button to view the result. With our online editor, you can edit the code, and click on a button to view the result. With our online editor, you can edit the code, and click on a button to view the result.</p>')
+    
+    
+  $("#down").click(function(){
+    $("#panel").slideDown("slow");
+  });
+  $("#up").click(function(){
+    $("#panel").slideUp("slow");
+  });
+  $("#toggle").click(function(){
+    $("#panel").slideToggle("slow");
+  });
+});
+</script>
+</body>
+</html>

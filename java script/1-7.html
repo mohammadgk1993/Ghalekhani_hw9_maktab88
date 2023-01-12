@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .progress-bar {
+                width: 50%;
+                height: 25px;
+                padding: 0;
+                border: 1px solid black;
+                margin-bottom: 0.5%;
+                overflow: hidden;
+            }
+            .percent {
+                background-color: rgb(248, 228, 45);
+                width: 10%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                let amount = 10
+                $('body').append('<div class="progress-bar"></div>') 
+                $('.progress-bar').append('<div class="percent"></div>')
+                $('body').append('<button>progress bar +10%</button>')
+                $('button').click(function() {
+                    amount += 10
+                    $('.percent').css('width',`${amount}%`)
+                })
+            })
+        </script>
+    </body>
+</html>
